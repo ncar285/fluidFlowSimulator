@@ -64,9 +64,9 @@ button {
   cursor: pointer;
   font-family: var(--font-family);
 
-  &:hover {
+  /* &:hover {
     background-color: darken(var(--primary-color), 10%);
-  }
+  } */
 }
 
 /* Form Elements */
