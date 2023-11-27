@@ -1,5 +1,5 @@
 {
-  "name": "my-react-app",
+  "name": "frontend",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,7 +12,6 @@
     "react-router-dom": "^6.20.0",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
-    "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
     "web-vitals": "^2.1.4"
   },
@@ -39,5 +38,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "redux-logger": "^3.0.6"
+  },
+  "proxy": "http://localhost:5000"
 }
