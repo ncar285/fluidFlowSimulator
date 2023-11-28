@@ -20,6 +20,10 @@
   --font-size-small: 0.875rem;
 }
 
+.app-container {
+  height: 100vh;
+}
+
 body {
   font-family: var(--font-family);
   color: var(--text-color);

@@ -1,0 +1,25 @@
+.home-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: var(--margin);
+    background-color: bisque;
+}
+
+.home-left, .home-right {
+    padding: var(--margin);
+}
+
+.home-left {
+    width: 50%;
+    & h1 {
+        padding: 40px;
+    }
+}
+
+.home-right {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end; 
+}
+
