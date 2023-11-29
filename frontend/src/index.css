@@ -76,8 +76,8 @@ button {
 /* Form Elements */
 input, select, textarea {
   border: 1px solid var(--border-color);
-  padding: var(--padding);
-  margin-bottom: var(--margin);
+  /* padding: var(--padding);
+  margin-bottom: var(--margin); */
 }
 
 /* Utility Classes */

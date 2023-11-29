@@ -18,12 +18,12 @@ const BoundingBox = ({ velocityField, numParticles}) => {
     const msPerSpawn = 1000/spawnRate;
 
 
-    console.log("horzSpacing",horzSpacing);
-    console.log("vertSpacing",vertSpacing);
-    console.log("spawnRate",spawnRate);
-    console.log("msPerInterval", msPerInterval);
-    console.log("msPerSpawn", msPerSpawn);
-    console.log("numParticles", numParticles);
+    // console.log("horzSpacing",horzSpacing);
+    // console.log("vertSpacing",vertSpacing);
+    // console.log("spawnRate",spawnRate);
+    // console.log("msPerInterval", msPerInterval);
+    // console.log("msPerSpawn", msPerSpawn);
+    // console.log("numParticles", numParticles);
 
 
 
@@ -51,7 +51,9 @@ const BoundingBox = ({ velocityField, numParticles}) => {
         const newParticles = []; // store new particles
 
         let xPos = 1;
-        let yPos = Math.round(vertSpacing/2);
+        let initial = (height % vertSpacing) / 2;
+        let yPos = Math.round(initial);
+
 
         while (yPos < height){
             newParticles.push({ x: xPos, y: yPos, key: `particle_${Date.now()}_insertPos_${xPos},${yPos}` })
@@ -75,8 +77,8 @@ const BoundingBox = ({ velocityField, numParticles}) => {
                 const updatedParticles = prev.map((particle) => {
                     let key = `${particle.x},${particle.y}`;
                     let velocity = velocityField[key] || { u: 0, v: 0 };
-                    let newXPos = particle.x + velocity.u * (frameRate / 1000);
-                    let newYPos = particle.y + velocity.v * (frameRate / 1000);
+                    let newXPos = particle.x + velocity.u * (1 / frameRate);
+                    let newYPos = particle.y + velocity.v * (1 / frameRate);
                     return {
                         ...particle,
                         x: Math.round(newXPos),
