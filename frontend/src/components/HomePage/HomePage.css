@@ -3,7 +3,7 @@
     justify-content: space-between;
     align-items: stretch;
     margin: var(--margin);
-    background-color: bisque;
+    /* background-color: bisque; */
 }
 
 /* .home-left, .home-right {
@@ -26,6 +26,15 @@
 
 .settings-block {
     display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.play-pause {
+    font-size: 2rem;
+    &:hover{
+        cursor: pointer;
+    }
 }
 
 .slider {

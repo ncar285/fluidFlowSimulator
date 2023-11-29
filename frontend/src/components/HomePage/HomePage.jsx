@@ -5,12 +5,15 @@ import TestAPI from '../TestAPI/TestAPI.jsx';
 import BoundingBox from '../BoundingBox/BoundingBox.jsx';
 import Particle from '../Particle/Particle.jsx';
 import { generatePlainVelocityField } from '../Utils/initialUField.js';
+import { BsPauseBtn } from "react-icons/bs";
+import { BsPlayBtn } from "react-icons/bs";
 
 const HomePage = () => {
 
-  const [numParticles, setNumParticles] = useState(10);
-  const [speed, setSpeed] = useState(45); // Assuming speed is measured in some units
+  const [numParticles, setNumParticles] = useState(10); // in the bounding box
+  const [speed, setSpeed] = useState(45); // pixels per second
   const [velocityField, setVelocityField] = useState(generatePlainVelocityField(45));
+  const [isPaused, setIsPaused] = useState(false);
 
   const handleNumParticlesChange = (e) => {
       setNumParticles(Number(e.target.value));
@@ -23,6 +26,8 @@ const HomePage = () => {
   useEffect(() => {
     setVelocityField(generatePlainVelocityField(speed));
   }, [speed]); // The effect runs whenever 'speed' changes
+
+
 
   return (
     <div className='home-container'>
@@ -55,12 +60,19 @@ const HomePage = () => {
                         onChange={handleSpeedChange} />
                 </label>
             </div>
+            <div>
+              { isPaused ? 
+              <BsPlayBtn className="play-pause playbtn" onClick={()=>{setIsPaused(false)}}/> 
+              :
+              <BsPauseBtn className="play-pause pausebtn" onClick={()=>{setIsPaused(true)}}/>
+              }
+            </div>
           </div>
           <BoundingBox className="bounding-box" 
           velocityField={velocityField}
           numParticles={numParticles}
+          isPaused={isPaused}
           >
-              {/* Other SVG elements or custom components go here */}
           </BoundingBox>
       </div>
 

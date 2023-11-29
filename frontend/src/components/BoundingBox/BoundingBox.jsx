@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './BoundingBox.css'
 import Particle from '../Particle/Particle.jsx';
 
-const BoundingBox = ({ velocityField, numParticles}) => {
+const BoundingBox = ({ velocityField, numParticles, isPaused}) => {
 
 
     const [width, height] = [900, 500];
@@ -18,8 +18,8 @@ const BoundingBox = ({ velocityField, numParticles}) => {
     const msPerSpawn = 1000/spawnRate;
 
 
-    // console.log("horzSpacing",horzSpacing);
-    // console.log("vertSpacing",vertSpacing);
+    console.log("horzSpacing",horzSpacing);
+    console.log("vertSpacing",vertSpacing);
     // console.log("spawnRate",spawnRate);
     // console.log("msPerInterval", msPerInterval);
     // console.log("msPerSpawn", msPerSpawn);
@@ -69,9 +69,14 @@ const BoundingBox = ({ velocityField, numParticles}) => {
     }
 
 
-    
+    // if paused is true, stop spawning and stop moving particles
 
     useEffect(() => {
+
+        if (isPaused) {
+            return;
+        }
+
         const interval = setInterval(() => {
             setParticles(prev => {
                 const updatedParticles = prev.map((particle) => {
@@ -92,22 +97,27 @@ const BoundingBox = ({ velocityField, numParticles}) => {
         }, Math.round(msPerInterval));
 
         return () => clearInterval(interval); // Clear interval on unmount
-    }, [velocityField]);
+    }, [velocityField, isPaused, msPerInterval]);
 
 
     useEffect(() => {
+
+        if (isPaused) {
+            return;
+        }
+
         const spawnInterval = setInterval(() => {
             const newParticles = generateSpawnLocations()
             setParticles(prev => [...prev, ...newParticles]);
         }, Math.round(msPerSpawn));
 
         return () => clearInterval(spawnInterval); // Clear interval on unmount
-    }, [spawnRate, numParticles]);
+    }, [spawnRate, numParticles, isPaused, msPerSpawn]);
 
 
 
     return (
-        <svg className='flow-box' >
+        <svg className='flow-box' width={width} height={height} >
             {particles.map(p => (
                 <Particle key={p.key} x={p.x} y={p.y} />
             ))}
