@@ -1,31 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import './BoundingBox.css'
 import Particle from '../Particle/Particle.jsx';
+import './BoundingBox.css'
 
 const BoundingBox = ({ velocityField, numParticles, isPaused}) => {
-
 
     const [width, height] = [900, 500];
     const frameRate = 60; // frames per second
     const [particles, setParticles] = useState([]);
-
-    // const [numAlongWidth, numAlongHeight, horzSpacing, vertSpacing] = findParticleSpacing();
+    const [particleObjects, setParticleObjects] = useState([]);
     const [horzSpacing, vertSpacing] = findParticleSpacing();
-
     const spawnRate = generateSpawnRate(); // particles per second
-
     const msPerInterval = 1000/60;
     const msPerSpawn = 1000/spawnRate;
-
-
-    console.log("horzSpacing",horzSpacing);
-    console.log("vertSpacing",vertSpacing);
-    // console.log("spawnRate",spawnRate);
-    // console.log("msPerInterval", msPerInterval);
-    // console.log("msPerSpawn", msPerSpawn);
-    // console.log("numParticles", numParticles);
-
-
 
 
     function findParticleSpacing() {
@@ -69,12 +55,37 @@ const BoundingBox = ({ velocityField, numParticles, isPaused}) => {
     }
 
 
-    // if paused is true, stop spawning and stop moving particles
+    // useEffect(() => {
+
+    //     if (isPaused) {
+    //         return;  // if paused is true, do nothing
+    //     }
+
+    //     const interval = setInterval(() => {
+    //         setParticleObjects(prev => {
+    //             updatedParticles = [];
+    //             for (let i = 0 ; i < prev.length ; i++){
+    //                 const particle = particleObjects[i];
+    //                 let velocity = velocityField[key] || { u: 0, v: 0 };
+    //                 let newXPos = particle.x + velocity.u * (1 / frameRate);
+    //                 let newYPos = particle.y + velocity.v * (1 / frameRate);
+    //                 if (newXPos >= 0 && newXPos <= 900 && newYPos >= 0 && newYPos <= 500){
+    //                     updatedParticles.push(<Particle key={particle.key} x={newXPos} y={newYPos} />);
+    //                 }
+    //             }
+
+    //             return updatedParticles;
+    //         });
+    //     }, Math.round(msPerInterval));
+
+    //     return () => clearInterval(interval); // Clear interval on unmount
+    // }, [velocityField, isPaused, msPerInterval]);
+
 
     useEffect(() => {
 
         if (isPaused) {
-            return;
+            return;  // if paused is true, do nothing
         }
 
         const interval = setInterval(() => {
@@ -100,6 +111,9 @@ const BoundingBox = ({ velocityField, numParticles, isPaused}) => {
     }, [velocityField, isPaused, msPerInterval]);
 
 
+
+
+
     useEffect(() => {
 
         if (isPaused) {
@@ -118,6 +132,7 @@ const BoundingBox = ({ velocityField, numParticles, isPaused}) => {
 
     return (
         <svg className='flow-box' width={width} height={height} >
+            {/* {particleObjects} */}
             {particles.map(p => (
                 <Particle key={p.key} x={p.x} y={p.y} />
             ))}

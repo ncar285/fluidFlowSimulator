@@ -16,11 +16,15 @@ const HomePage = () => {
   const [isPaused, setIsPaused] = useState(false);
 
   const handleNumParticlesChange = (e) => {
+      setIsPaused(true);
       setNumParticles(Number(e.target.value));
+      setIsPaused(false);
   };
 
   const handleSpeedChange = (e) => {
+      setIsPaused(true);
       setSpeed(Number(e.target.value));
+      setIsPaused(false);
   };
 
   useEffect(() => {
@@ -44,7 +48,7 @@ const HomePage = () => {
                     <input 
                         type="range" 
                         min="1" 
-                        max="1000" 
+                        max="10000" 
                         value={numParticles} 
                         onChange={handleNumParticlesChange} />
                 </label>

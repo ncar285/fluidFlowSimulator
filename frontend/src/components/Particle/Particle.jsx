@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Particle = ({ x, y }) => {
+const Particle = React.memo(({ x, y }) => {
     // Style for the particle
     const particleStyle = {
         fill: 'blue', // or any color
@@ -8,6 +8,6 @@ const Particle = ({ x, y }) => {
     };
 
     return <circle cx={x} cy={y} style={particleStyle} />;
-};
+});
 
 export default Particle;
