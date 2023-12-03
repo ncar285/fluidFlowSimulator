@@ -10,8 +10,8 @@ import { BsPlayBtn } from "react-icons/bs";
 
 const HomePage = () => {
 
-  const [numParticles, setNumParticles] = useState(10); // in the bounding box
-  const [speed, setSpeed] = useState(45); // pixels per second
+  const [numParticles, setNumParticles] = useState(1000); // in the bounding box
+  const [speed, setSpeed] = useState(100); // pixels per second
   const [velocityField, setVelocityField] = useState(generatePlainVelocityField(45));
   const [isPaused, setIsPaused] = useState(false);
 

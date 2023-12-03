@@ -40,14 +40,16 @@ const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         let animationFrameId;
-    
+
+        // Initialize particlesRef with new particles
+        particlesRef.current = [...particleParams.spawnParticles, ...particlesRef.current];
+
         const draw = () => {
 
             if (isPaused) return;
 
             const firstParticle = particlesRef.current[1];
-            // if no particles yet, spawn. If reached desired spacing, spawn
-            if (particlesRef.current.length === 0 || firstParticle.x >= particleParams.spacing){
+            if (firstParticle && (firstParticle.x >= particleParams.spacing)){ // If reached desired spacing, spawn
                 particlesRef.current = [...particleParams.spawnParticles, ...particlesRef.current];
             }
     
@@ -88,7 +90,7 @@ const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
         return () => {
             cancelAnimationFrame(animationFrameId); // Cancel the animation frame on unmount
         };
-    }, [velocityField, numParticles, isPaused]);
+    }, [velocityField, numParticles, isPaused, particleParams]);
 
 
     return (
