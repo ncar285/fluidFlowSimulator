@@ -1,7 +1,8 @@
 .home-container{
     display: flex;
-    justify-content: space-between;
-    align-items: stretch;
+    flex-direction: column;
+    /* justify-content: space-between; */
+    /* align-items: stretch; */
     margin: var(--margin);
     /* background-color: bisque; */
 }

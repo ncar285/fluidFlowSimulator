@@ -7,42 +7,52 @@ const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
     // const [particles, setParticles] = useState([]);
     const particlesRef = useRef([]);
     const canvasRef = useRef(null);
-    const [horzSpacing, vertSpacing] = findParticleSpacing();
-    const spawnRate = generateSpawnRate(); // particles per second
+    // const [[horzSpacing, vertSpacing, numAlongHeight], set] = useState(findParticleSpacing([]));
     const msPerInterval = 1000/60;
-    const msPerSpawn = 1000/spawnRate;
 
-    function findParticleSpacing() {
+
+
+    const [particleParams, setParticleParams] = useState({ horzSpacing: 0, vertSpacing: 0, numAlongHeight: 0, spawnParticles: [], spawnRate: 0 });
+
+
+    console.log(particlesRef.current)
+
+    useEffect(() => {
+        const newParticleParams = findParticleSpacing(numParticles, width, height);
+        setParticleParams(newParticleParams);
+    }, [numParticles, width, height]);
+
+
+    function findParticleSpacing(numParticles, width, height) {
         const numAlongWidth = Math.sqrt(numParticles * (width / height));
-        const numAlongHeight = numParticles / numAlongWidth;
-        const vertSpacing = height / Math.round(numAlongHeight);
-        const horzSpacing = width / Math.round(numAlongWidth);
-        return [
-            Math.round(horzSpacing), 
-            Math.round(vertSpacing)
-        ]
-    }
+        const numAlongHeight = Math.round(numParticles / numAlongWidth);
+        
+        // verticle spacing should be same horizontal and verticle
+        const spacing = Math.round(width / numAlongWidth);
+
+        const spawnParticles = [];
+
+        const velocity = velocityField[`1,250`];
+        // (pixels/second) / (pixels) ==> how many releases per second
+        const spawnRate = velocity.u/spacing;
 
 
-    function generateSpawnLocations() {
-        const newParticles = []; // store new particles
 
-        let xPos = 1;
-        let initial = (height % vertSpacing) / 2;
-        let yPos = Math.round(initial);
-
-        while (yPos < height){
-            newParticles.push({ x: xPos, y: yPos, key: `particle_${Date.now()}_insertPos_${xPos},${yPos}` })
-            yPos += vertSpacing;
+        let yPos = Math.round(spacing / 2);
+        for (let i = 0 ; i < numAlongHeight ; i++){
+            spawnParticles.push({ x: 1, y: yPos});
+            yPos += spacing;
         }
 
-        return newParticles;
+        return {
+            spacing: Math.round(spacing), 
+            numAlongHeight: Math.round(numAlongHeight),
+            spawnParticles,
+            spawnRate
+        }
     }
 
-    function generateSpawnRate() {
-        const velocity = velocityField[`1,250`];
-        return (velocity.u/horzSpacing);
-    }
+
 
 
     useEffect(() => {
@@ -56,10 +66,10 @@ const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
     
             const now = Date.now();
             const timeSinceLastSpawn = now - lastSpawnTime;
+            const msPerSpawn = 1000/particleParams.spawnRate;
     
             if (timeSinceLastSpawn >= msPerSpawn) {
-                const newParticles = generateSpawnLocations();
-                particlesRef.current = [...newParticles, ...particlesRef.current];
+                particlesRef.current = [...particleParams.spawnParticles, ...particlesRef.current];
                 lastSpawnTime = now;
             }
     
@@ -67,7 +77,7 @@ const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
     
             const updatedParticles = [];
 
-
+            // update each particle
             for (let i = 0; i < particlesRef.current.length; i++) {
                 const particle = particlesRef.current[i];
                 const velocity = velocityField[`${Math.round(particle.x)},${Math.round(particle.y)}`];
@@ -79,6 +89,7 @@ const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
                 const newXPos = particle.x + velocity.u * (1 / frameRate);
                 const newYPos = particle.y + velocity.v * (1 / frameRate);
             
+                // only draw particles in the boundary
                 if (newXPos >= 0 && newXPos <= 900 && newYPos >= 0 && newYPos <= 500) {
                     updatedParticles.push({ ...particle, x: newXPos, y: newYPos });
             
@@ -99,11 +110,17 @@ const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
         return () => {
             cancelAnimationFrame(animationFrameId); // Cancel the animation frame on unmount
         };
-    }, [isPaused, msPerSpawn, spawnRate]);
+    }, [velocityField, numParticles, isPaused]);
 
 
     return (
-        <canvas ref={canvasRef} className='flow-box' width={width} height={height} />
+        <canvas 
+            ref={canvasRef} 
+            className='flow-box' 
+            width={width} 
+            height={height}
+            style={{ width: `${width}px`, height: `${height}px` }}
+        />
     );
 };
 
