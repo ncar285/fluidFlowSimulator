@@ -4,73 +4,51 @@ import './BoundingBox.css';
 const BoundingBox = ({ velocityField, numParticles, isPaused }) => {
     const [width, height] = [900, 500];
     const frameRate = 60; // frames per second
-    // const [particles, setParticles] = useState([]);
     const particlesRef = useRef([]);
     const canvasRef = useRef(null);
-    // const [[horzSpacing, vertSpacing, numAlongHeight], set] = useState(findParticleSpacing([]));
-    const msPerInterval = 1000/60;
+    const [particleParams, setParticleParams] = useState({ spacing: 0, spawnParticles: []});
 
-
-
-    const [particleParams, setParticleParams] = useState({ horzSpacing: 0, vertSpacing: 0, numAlongHeight: 0, spawnParticles: [], spawnRate: 0 });
-
-
-    console.log(particlesRef.current)
 
     useEffect(() => {
-        const newParticleParams = findParticleSpacing(numParticles, width, height);
+        const newParticleParams = findParticleParams(numParticles, width, height);
         setParticleParams(newParticleParams);
     }, [numParticles, width, height]);
 
 
-    function findParticleSpacing(numParticles, width, height) {
+    function findParticleParams(numParticles, width, height) {
         const numAlongWidth = Math.sqrt(numParticles * (width / height));
         const numAlongHeight = Math.round(numParticles / numAlongWidth);
-        
-        // verticle spacing should be same horizontal and verticle
-        const spacing = Math.round(width / numAlongWidth);
-
+        const spacing = width / numAlongWidth; // verticle and horizontal spacing are same
         const spawnParticles = [];
 
-        const velocity = velocityField[`1,250`];
-        // (pixels/second) / (pixels) ==> how many releases per second
-        const spawnRate = velocity.u/spacing;
-
-
-
-        let yPos = Math.round(spacing / 2);
+        let yPos = spacing / 2;
         for (let i = 0 ; i < numAlongHeight ; i++){
-            spawnParticles.push({ x: 1, y: yPos});
+            if ( (Math.round(yPos) >= 0) && (Math.round(yPos) <= 500)){
+                spawnParticles.push({ x: 1, y: Math.round(yPos)});
+            }
             yPos += spacing;
         }
 
         return {
             spacing: Math.round(spacing), 
-            numAlongHeight: Math.round(numAlongHeight),
-            spawnParticles,
-            spawnRate
+            spawnParticles
         }
     }
-
-
 
 
     useEffect(() => {
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         let animationFrameId;
-        let lastSpawnTime = Date.now();
     
         const draw = () => {
+
             if (isPaused) return;
-    
-            const now = Date.now();
-            const timeSinceLastSpawn = now - lastSpawnTime;
-            const msPerSpawn = 1000/particleParams.spawnRate;
-    
-            if (timeSinceLastSpawn >= msPerSpawn) {
+
+            const firstParticle = particlesRef.current[1];
+            // if no particles yet, spawn. If reached desired spacing, spawn
+            if (particlesRef.current.length === 0 || firstParticle.x >= particleParams.spacing){
                 particlesRef.current = [...particleParams.spawnParticles, ...particlesRef.current];
-                lastSpawnTime = now;
             }
     
             context.clearRect(0, 0, width, height); // Clear previous drawing
