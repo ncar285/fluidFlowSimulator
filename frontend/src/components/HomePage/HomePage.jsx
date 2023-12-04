@@ -7,10 +7,12 @@ import Particle from '../Particle/Particle.jsx';
 import { generatePlainVelocityField } from '../Utils/initialUField.js';
 import { BsPauseBtn } from "react-icons/bs";
 import { BsPlayBtn } from "react-icons/bs";
+import Walls from '../Walls/Walls.jsx';
 
 const HomePage = () => {
 
-  const [width, height] = [900, 500];
+  // const [width, height] = [900, 500];
+  const canvasSize = [900, 500];
   const [numParticles, setNumParticles] = useState(1000); // in the bounding box
   const [speed, setSpeed] = useState(100); // pixels per second
   const [velocityField, setVelocityField] = useState(generatePlainVelocityField(45));
@@ -31,6 +33,10 @@ const HomePage = () => {
   useEffect(() => {
     setVelocityField(generatePlainVelocityField(speed));
   }, [speed]); // The effect runs whenever 'speed' changes
+
+  const type = 'randomTest';
+  const parameters = {vertices: [[-100,-200], [-100,200], [100,200], [100,-200]]};
+  const shapeSettings = {type, parameters};
 
 
 
@@ -80,10 +86,10 @@ const HomePage = () => {
           >
           </BoundingBox> */}
           <div className="canvas-container"
-          style={{ width: `${width}px`, height: `${height}px` }}>
-            <BoundingBox />
-            {/* <Walls />
-            <Particles /> */}
+          style={{ width: `${canvasSize[0]}px`, height: `${canvasSize[1]}px` }}>
+            <BoundingBox canvasSize={canvasSize}/>
+            <Walls shapeSettings={shapeSettings} canvasSize={canvasSize}/>
+            {/* <Particles /> */}
           </div>
       </div>
 
