@@ -34,6 +34,27 @@
     }
 }
 
+
+
+/* canvas-container */
+.canvas-container {
+    position: relative;
+}
+
+.pause-button {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 20;
+}
+
+
+/* ! SLIDER BLOCKS */
+
+.settings-block h2{
+    margin: var(--margin);
+}
+
 .slider {
     border-top: 1px solid #cccc;
     border-bottom: 1px solid #cccc;
@@ -48,20 +69,9 @@
     margin-left: 20px;
 }
 
-.slider input:active {
+.slider input:active, 
+.slider input:hover {
     cursor: pointer;
 }
 
-
-/* canvas-container */
-.canvas-container {
-    position: relative;
-}
-
-.pause-button {
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    z-index: 20;
-}
 

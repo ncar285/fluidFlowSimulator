@@ -34,7 +34,7 @@ const HomePage = () => {
     <div className='home-container'>
 
       <div className='home-header'>
-        <h1>Welcome to the Aerofoil Simulator</h1>
+        <h1>Welcome to the Flow Simulator</h1>
         {/* <TestAPI/> */}
       </div>
 
@@ -48,7 +48,7 @@ const HomePage = () => {
         <div className="canvas-container"
           style={{ width: `${canvasSize[0]}px`, height: `${canvasSize[1]}px` }}>
             <BoundingBox canvasSize={canvasSize}/>
-            {/* <Walls shapeSettings={shapeSettings} canvasSize={canvasSize}/> */}
+            <Walls shapeSettings={shapeSettings} canvasSize={canvasSize}/>
         
             <div className='pause-button'>{ isPaused ? 
               <BsPlayBtn className="play-pause playbtn" onClick={()=>{setIsPaused(false)}}/> 

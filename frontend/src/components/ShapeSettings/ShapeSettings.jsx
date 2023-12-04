@@ -10,6 +10,11 @@ const ShapeSettings = ({ shapeSettings }) => {
         none: {}
     };
 
+    const maxShapeDimensions = {
+        rectangle: 300,
+        circle: 150,
+    }
+
     const handleShapeChange = (e) => {
         const type = e.target.value;
         setShapeType(type);
@@ -24,6 +29,7 @@ const ShapeSettings = ({ shapeSettings }) => {
         return parameter[0].toUpperCase() + parameter.slice(1).toLowerCase();
     }
 
+
     return (
         <>
             <h2>Obstacles</h2>
@@ -37,6 +43,8 @@ const ShapeSettings = ({ shapeSettings }) => {
             </div>
             <div className='shapeParamSelection'>
                 {matchingParams[shapeType] && Object.keys(matchingParams[shapeType]).map((parameter) => {
+                    // debugger
+                    // console.log(maxShapeDimensions[shapeType])
                     return (
                         <div className='slider' key={parameter}>
                             <div>{capitlized(parameter)}</div>
@@ -45,7 +53,7 @@ const ShapeSettings = ({ shapeSettings }) => {
                                 <input 
                                     type="range" 
                                     min="1" 
-                                    max="150" 
+                                    max={`${maxShapeDimensions[shapeType]}`} 
                                     value={shapeParameters[parameter]} 
                                     onChange={(e) => handleParameterChange(parameter, e)} />
                             </label>

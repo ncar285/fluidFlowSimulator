@@ -5,47 +5,42 @@ const Walls = ( { shapeSettings, canvasSize }) => {
 
     const canvasRef = useRef(null);
 
-    const { type, parameters } = shapeSettings;
+    const {shapeType, shapeParameters} = shapeSettings;
 
 
     useEffect(() => {
-        if (type === 'none') return null;
+
+        // debugger
+
+        if (shapeType === 'none') return;
+
         const canvas = canvasRef.current;
         const context = canvas.getContext('2d');
         context.clearRect(0, 0, canvas.width, canvas.height);
     
-        // Adjust the vertices
-        let adjustedVertices = null;
-        if (parameters.vertices){
-            adjustedVertices = parameters.vertices.map(([x, y]) => {
-                return [x + canvas.width / 2, y + canvas.height / 2];
-            });
-        }
-    
-        // console.log("canvas.width",canvas.width)
-        // console.log("canvas.height",canvas.height)
-        // console.log("adjustedVertices",adjustedVertices);
-    
         const shapeCenter = [canvas.width / 2, canvas.height / 2];
 
         context.beginPath();
-        switch (type) {
+        switch (shapeType) {
             case 'circle':
-                const { radius: r } = parameters;
+                const { radius: r } = shapeParameters;
                 context.arc(shapeCenter[0], shapeCenter[1], r, 0, Math.PI * 2);
                 context.closePath();
                 break;
             case 'rectangle':
-                const { width, height } = parameters;
+                const { width, height } = shapeParameters;
                 const [x,y] = [
                     shapeCenter[0] - (width / 2), 
-                    shapeCenter[1] + (height / 2) 
+                    shapeCenter[1] - (height / 2) 
                 ];
                 context.rect(x, y, width, height);
                 context.closePath();
                 break;
             default:
-                adjustedVertices.forEach(([x,y], i) => (i === 0) ? context.moveTo(x,y) : context.lineTo(x,y));
+                const centeredVertices = shapeParameters.vertices.map(([x, y]) => {
+                    return [x + shapeCenter[0], y - shapeCenter[1]];
+                });
+                centeredVertices.forEach(([x,y], i) => (i === 0) ? context.moveTo(x,y) : context.lineTo(x,y));
                 context.closePath();
                 break;
         }
@@ -63,7 +58,7 @@ const Walls = ( { shapeSettings, canvasSize }) => {
         // });
     }, [shapeSettings]);
 
-    if (type === 'none') return null;
+    if (shapeType === 'none') return null;
 
 
     return (
