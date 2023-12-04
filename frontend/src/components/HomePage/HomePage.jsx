@@ -1,95 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import './HomePage.css';
-import TestAPI from '../TestAPI/TestAPI.jsx';
-// import MovingDots from '../MovingDots/MovingDoots.jsx';
+// import TestAPI from '../TestAPI/TestAPI.jsx';
 import BoundingBox from '../BoundingBox/BoundingBox.jsx';
-import Particle from '../Particle/Particle.jsx';
+// import Particle from '../Particle/Particle.jsx';
 import { generatePlainVelocityField } from '../Utils/initialUField.js';
 import { BsPauseBtn } from "react-icons/bs";
 import { BsPlayBtn } from "react-icons/bs";
 import Walls from '../Walls/Walls.jsx';
+import FlowSettings from '../FlowSettings/FlowSettings.jsx';
 
 const HomePage = () => {
 
-  // const [width, height] = [900, 500];
   const canvasSize = [900, 500];
   const [numParticles, setNumParticles] = useState(1000); // in the bounding box
   const [speed, setSpeed] = useState(100); // pixels per second
   const [velocityField, setVelocityField] = useState(generatePlainVelocityField(45));
   const [isPaused, setIsPaused] = useState(false);
 
-  const handleNumParticlesChange = (e) => {
-      setIsPaused(true);
-      setNumParticles(Number(e.target.value));
-      setIsPaused(false);
-  };
-
-  const handleSpeedChange = (e) => {
-      setIsPaused(true);
-      setSpeed(Number(e.target.value));
-      setIsPaused(false);
-  };
 
   useEffect(() => {
     setVelocityField(generatePlainVelocityField(speed));
-  }, [speed]); // The effect runs whenever 'speed' changes
+  }, [speed]);
 
   const type = 'randomTest';
   const parameters = {vertices: [[-100,-200], [-100,200], [100,200], [100,-200]]};
   const shapeSettings = {type, parameters};
-
-
+  const flowParameters = {numParticles, setNumParticles, speed, setSpeed, setIsPaused}
 
   return (
     <div className='home-container'>
-      <div className='home-left'>
+
+      <div className='home-header'>
         <h1>Welcome to the Aerofoil Simulator</h1>
-        <TestAPI/>
+        {/* <TestAPI/> */}
       </div>
 
-      <div className='home-right'>
+      <div className='home-content'>
+
         <div className='settings-block'>
-            <div className='slider'>
-                <label>
-                    Number of Particles: {numParticles}
-                    <input 
-                        type="range" 
-                        min="1" 
-                        max="10000" 
-                        value={numParticles} 
-                        onChange={handleNumParticlesChange} />
-                </label>
-            </div>
-            <div className='slider'>
-                <label>
-                    Speed: {speed}
-                    <input 
-                        type="range" 
-                        min="1" 
-                        max="1000" 
-                        value={speed} 
-                        onChange={handleSpeedChange} />
-                </label>
-            </div>
-            <div>
-              { isPaused ? 
-              <BsPlayBtn className="play-pause playbtn" onClick={()=>{setIsPaused(false)}}/> 
-              :
-              <BsPauseBtn className="play-pause pausebtn" onClick={()=>{setIsPaused(true)}}/>
-              }
-            </div>
-          </div>
-          {/* <BoundingBox className="bounding-box" 
-          velocityField={velocityField}
-          numParticles={numParticles}
-          isPaused={isPaused}
-          >
-          </BoundingBox> */}
-          <div className="canvas-container"
+          <FlowSettings flowParameters={flowParameters}/>
+        </div>
+
+        <div className="canvas-container"
           style={{ width: `${canvasSize[0]}px`, height: `${canvasSize[1]}px` }}>
             <BoundingBox canvasSize={canvasSize}/>
             <Walls shapeSettings={shapeSettings} canvasSize={canvasSize}/>
             {/* <Particles /> */}
+            <div className='pause-button'>{ isPaused ? 
+              <BsPlayBtn className="play-pause playbtn" onClick={()=>{setIsPaused(false)}}/> 
+              :
+              <BsPauseBtn className="play-pause pausebtn" onClick={()=>{setIsPaused(true)}}/>
+            }</div>
           </div>
       </div>
 

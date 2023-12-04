@@ -1,0 +1,21 @@
+.settings-block h2{
+    margin: var(--margin);
+}
+
+.slider {
+    border-top: 1px solid #cccc;
+    border-bottom: 1px solid #cccc;
+    background-color: #f0ececcc;
+    padding: var(--margin);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slider input {
+    margin-left: 20px;
+}
+
+.slider input:active {
+    cursor: pointer;
+}

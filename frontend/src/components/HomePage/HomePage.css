@@ -1,24 +1,30 @@
 .home-container{
     display: flex;
     flex-direction: column;
-    margin: var(--margin);
+    margin: calc(4 * var(--margin));
 }
 
-.home-left {
+.home-header {
     & h1 {
-        padding: 40px;
+        padding-bottom: 80px;
+        text-align: center;
     }
 }
 
-.home-right {
+.home-content {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
 }
 
 .settings-block {
     display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+    flex-direction: column;
+    width: 450px;
+    margin-right: calc(2 * var(--margin));
+}
+
+.settings-block h2{
+    margin: var(--margin);
 }
 
 .play-pause {
@@ -29,18 +35,33 @@
 }
 
 .slider {
+    border-top: 1px solid #cccc;
+    border-bottom: 1px solid #cccc;
+    background-color: #f0ececcc;
+    padding: var(--margin);
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin: var(--margin);
 }
 
 .slider input {
     margin-left: 20px;
 }
 
+.slider input:active {
+    cursor: pointer;
+}
+
 
 /* canvas-container */
 .canvas-container {
     position: relative;
+}
+
+.pause-button {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    z-index: 20;
 }
 

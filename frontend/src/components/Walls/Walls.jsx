@@ -6,10 +6,8 @@ const Walls = ( { shapeSettings, canvasSize }) => {
 
     const { type, parameters } = shapeSettings;
 
-    const createAerofoilVertices = () => {
-        // finish this later
-        return [[-10,-10],[-10,10],[10, 10],[10,-10]];
-    }
+    // const createAerofoilVertices = () => {
+    // }
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -21,9 +19,9 @@ const Walls = ( { shapeSettings, canvasSize }) => {
             return [x + canvas.width / 2, y + canvas.height / 2];
         });
     
-        console.log("canvas.width",canvas.width)
-        console.log("canvas.height",canvas.height)
-        console.log("adjustedVertices",adjustedVertices);
+        // console.log("canvas.width",canvas.width)
+        // console.log("canvas.height",canvas.height)
+        // console.log("adjustedVertices",adjustedVertices);
     
         context.beginPath();
         switch (type) {
