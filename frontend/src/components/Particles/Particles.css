@@ -1,0 +1,4 @@
+.particles-canvas {
+    position: absolute;
+    z-index: 12;
+}

@@ -1,28 +1,18 @@
 .home-container{
     display: flex;
     flex-direction: column;
-    /* justify-content: space-between; */
-    /* align-items: stretch; */
     margin: var(--margin);
-    /* background-color: bisque; */
 }
 
-/* .home-left, .home-right {
-    padding: var(--margin);
-} */
-
 .home-left {
-    /* width: 50%; */
     & h1 {
         padding: 40px;
     }
 }
 
 .home-right {
-    /* width: 50%; */
     display: flex;
     flex-direction: column;
-    /* justify-content: flex-end;  */
 }
 
 .settings-block {
@@ -45,7 +35,12 @@
 }
 
 .slider input {
-    /* padding: 20px 20px; */
     margin-left: 20px;
+}
+
+
+/* canvas-container */
+.canvas-container {
+    position: relative;
 }
 

@@ -1,0 +1,4 @@
+.walls-canvas {
+    position: absolute;
+    z-index: 11;
+}

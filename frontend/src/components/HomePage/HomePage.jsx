@@ -10,6 +10,7 @@ import { BsPlayBtn } from "react-icons/bs";
 
 const HomePage = () => {
 
+  const [width, height] = [900, 500];
   const [numParticles, setNumParticles] = useState(1000); // in the bounding box
   const [speed, setSpeed] = useState(100); // pixels per second
   const [velocityField, setVelocityField] = useState(generatePlainVelocityField(45));
@@ -72,12 +73,18 @@ const HomePage = () => {
               }
             </div>
           </div>
-          <BoundingBox className="bounding-box" 
+          {/* <BoundingBox className="bounding-box" 
           velocityField={velocityField}
           numParticles={numParticles}
           isPaused={isPaused}
           >
-          </BoundingBox>
+          </BoundingBox> */}
+          <div className="canvas-container"
+          style={{ width: `${width}px`, height: `${height}px` }}>
+            <BoundingBox />
+            {/* <Walls />
+            <Particles /> */}
+          </div>
       </div>
 
     </div>
