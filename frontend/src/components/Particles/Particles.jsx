@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { generatePlainVelocityField } from '../Utils/initialUField';
 import './Particles.css';
 
-const Particles = ({ velocityField, settings}) => {
-  
-    const { width, height, numParticles, isPaused } = settings;
+const Particles = ({ flowParameters, canvasSize, isPaused} ) => {
 
+    const {numParticles, speed} = flowParameters;
+    const [velocityField, setVelocityField] = useState(generatePlainVelocityField(45));
+    const [width, height] = canvasSize;
     const frameRate = 60; // frames per second
     const particlesRef = useRef([]);
     const canvasRef = useRef(null);
@@ -12,9 +14,13 @@ const Particles = ({ velocityField, settings}) => {
 
 
     useEffect(() => {
+        setVelocityField(generatePlainVelocityField(speed));
+    }, [speed]);
+
+    useEffect(() => {
         const newParticleParams = findParticleParams(numParticles, width, height);
         setParticleParams(newParticleParams);
-    }, [numParticles, width, height]);
+    }, [flowParameters, canvasSize]);
 
 
     function findParticleParams(numParticles, width, height) {
